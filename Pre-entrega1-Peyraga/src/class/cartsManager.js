@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 
-export class CartManager {
+class CartManager {
     constructor(path) {
         this.path = path
         this.carts = []
@@ -26,3 +26,5 @@ export class CartManager {
     }
 
 }
+
+export default CartManager

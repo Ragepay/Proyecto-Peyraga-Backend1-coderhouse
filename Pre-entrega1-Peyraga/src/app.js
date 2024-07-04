@@ -1,6 +1,7 @@
 import express from 'express'
 import { __dirname } from './utils.js';
 import productsRoute from './routes/products.router.js'
+import cartsRoute from './routes/carts.router.js'
 
 /*
 import productsRoute from './routes/products.router.js'
@@ -17,9 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //  Endpoints para productos y carritos.
 app.use('/api/products', productsRoute) //   Generando el endpoint a la ruta del archivo products.
-/*
 app.use('/api/carts', cartsRoute)
-*/
+
 
 
 
