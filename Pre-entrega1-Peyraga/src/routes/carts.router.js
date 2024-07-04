@@ -6,25 +6,14 @@ const router = Router();
 
 const cartsManager = new CartManager(__dirname + '/data/carts.json');
 
-// Crear un nuevo carrito mandando un array de productos(objetos).
-router.post('/', async (req, res) => {
-    console.log("Entró al POST / .");
-    try {
-        const productos = req.body; // Obtiene los productos desde el cuerpo de la solicitud
-        const nuevoCarrito = await cartsManager.crearCarrito(productos); // Crea el carrito con los productos recibidos
-        res.status(201).json({ message: "Carrito creado", cart: nuevoCarrito });
-    } catch (error) {
-        console.error('Error al crear el carrito:', error);
-        res.status(500).json({ error: 'Error al crear el carrito' });
-    }
-});
+
 
 // Ruta GET /:id para listar los productos de un carrito específico
 router.get('/:id', async (req, res) => {
-
+    console.log("Entró al get.")
 
     const { id } = req.params;
-    try {
+    try {   
         const carrito = await cartsManager.obtenerCarrito(id);
         if (carrito) {
             res.status(200).json(carrito);
@@ -34,6 +23,19 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener el carrito:', error);
         res.status(500).json({ error: 'Error al obtener el carrito' });
+    }
+});
+
+// Crear un nuevo carrito mandando un array de productos(objetos).
+router.post('/', async (req, res) => {
+    
+    try {
+        const productos = req.body;
+        const nuevoCarrito = await cartsManager.crearCarrito(productos); // Crea el carrito con los productos recibidos
+        res.status(201).json({ message: "Carrito creado", cart: nuevoCarrito });
+    } catch (error) {
+        console.error('Error al crear el carrito:', error);
+        res.status(500).json({ error: 'Error al crear el carrito' });
     }
 });
 
