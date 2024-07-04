@@ -1,0 +1,79 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "Toyota Corolla 2023",
+            "description": "Sedán compacto con reputación de confiabilidad y eficiencia en combustible.",
+            "code": "TOYCOR23-001",
+            "price": 27000,
+            "status": true,
+            "stock": 15,
+            "categoria": "Sedán",
+            "thumbnails": [
+                "https://example.com/toyota_corolla_2023_1.jpg",
+                "https://example.com/toyota_corolla_2023_2.jpg",
+                "https://example.com/toyota_corolla_2023_3.jpg"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Toyota RAV4 2024",
+            "description": "SUV versátil y espacioso con tracción en las cuatro ruedas, ideal para aventuras familiares y urbanas.",
+            "code": "TOYRAV24-002",
+            "price": 38000,
+            "status": true,
+            "stock": 12,
+            "categoria": "SUV",
+            "thumbnails": [
+                "https://example.com/toyota_rav4_2024_1.jpg",
+                "https://example.com/toyota_rav4_2024_2.jpg",
+                "https://example.com/toyota_rav4_2024_3.jpg"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Toyota Camry Hybrid 2025",
+            "description": "Sedán mediano con tecnología híbrida que combina eficiencia de combustible con rendimiento dinámico.",
+            "code": "TOYCAM25-003",
+            "price": 35000,
+            "status": true,
+            "stock": 8,
+            "categoria": "Sedán",
+            "thumbnails": [
+                "https://example.com/toyota_camry_hybrid_2025_1.jpg",
+                "https://example.com/toyota_camry_hybrid_2025_2.jpg",
+                "https://example.com/toyota_camry_hybrid_2025_3.jpg"
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Toyota Tacoma 2023",
+            "description": "Pickup robusta y duradera diseñada para el trabajo pesado y aventuras todoterreno.",
+            "code": "TOYTAC23-004",
+            "price": 40000,
+            "status": true,
+            "stock": 10,
+            "categoria": "Pickup",
+            "thumbnails": [
+                "https://example.com/toyota_tacoma_2023_1.jpg",
+                "https://example.com/toyota_tacoma_2023_2.jpg",
+                "https://example.com/toyota_tacoma_2023_3.jpg"
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Toyota Yaris Hatchback 2024",
+            "description": "Automóvil compacto con diseño moderno y características avanzadas para la ciudad.",
+            "code": "TOYYAR24-005",
+            "price": 22000,
+            "status": true,
+            "stock": 20,
+            "categoria": "Hatchback",
+            "thumbnails": [
+                "https://example.com/toyota_yaris_hatchback_2024_1.jpg",
+                "https://example.com/toyota_yaris_hatchback_2024_2.jpg",
+                "https://example.com/toyota_yaris_hatchback_2024_3.jpg"
+            ]
+        }
+    ]
+}
