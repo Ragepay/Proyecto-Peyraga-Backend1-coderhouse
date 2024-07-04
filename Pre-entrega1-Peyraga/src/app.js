@@ -1,24 +1,20 @@
-import express from 'express'
+import express from 'express';
 import { __dirname } from './utils.js';
-import productsRoute from './routes/products.router.js'
-import cartsRoute from './routes/carts.router.js'
+import productsRoute from './routes/products.router.js';
+import cartsRoute from './routes/carts.router.js';
 
-/*
-import productsRoute from './routes/products.router.js'
-import cartsRoute from './routes/carts.router.js'
-*/
+
 const PORT = 8080;
 const app = express();
 
-//  Middlewares
-//  Middleware de Express.
+// Middleware para parsear JSON y URLencoded.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
 //  Endpoints para productos y carritos.
-app.use('/api/products', productsRoute) //   Generando el endpoint a la ruta del archivo products.
-app.use('/api/carts', cartsRoute)
+app.use('/api/products', productsRoute); //   Generando el endpoint a la ruta del archivo products.
+app.use('/api/carts', cartsRoute);
 
 
 
