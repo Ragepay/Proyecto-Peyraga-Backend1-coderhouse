@@ -1,0 +1,36 @@
+/* VIEW de HOME*/
+h1 {
+    color: red;
+    text-align: center;
+}
+
+.home {
+    margin: 1em;
+    padding: 0.5em;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    border: 1px solid black;
+}
+
+.boxProducts {
+    display: flex;
+    margin: 1em;
+    padding: 0.5em;
+    gap: 1em;
+}
+
+.boxProducts div {
+    border: 1px solid black;
+    margin: 1em;
+    padding: 0.5em;
+    text-align: center;
+}
+/* VIEW de HOME*/
+
+/* VIEW de realTimeProducts*/
+
+
+
+
+/* VIEW de realTimeProducts*/
