@@ -13,15 +13,18 @@ socket.on("home", (data) => {   // Escucho/recibo la informacion del servidor po
         const descripcion = document.createElement('p')
         descripcion.innerText = 'Descripcion: ' + element.description;
         const precio = document.createElement('p')
-        precio.innerText = 'Precio: $ ' + element.price;
+        precio.innerText = 'Precio: u$s ' + element.price;
         const stock = document.createElement('p')
         stock.innerText = 'Stock: ' + element.stock;
+        const categoria = document.createElement('p')
+        categoria.innerText = 'Categoria: ' + element.categoria;
 
         div.appendChild(titulo)
         div.appendChild(id)
         div.appendChild(descripcion)
         div.appendChild(precio)
         div.appendChild(stock)
+        div.appendChild(categoria)
         boxProducts.appendChild(div)
     });
 

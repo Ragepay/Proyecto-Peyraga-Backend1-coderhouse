@@ -6,6 +6,7 @@ socket.on("realTimeProducts", (data) => {   // Escucho/recibo la informacion del
     boxProducts.innerHTML = "";
     data.forEach(element => {
         const div = document.createElement('div');
+
         const id = document.createElement('p')
         id.innerText = 'ID: ' + element.id;
         const titulo = document.createElement('h2')
@@ -13,17 +14,21 @@ socket.on("realTimeProducts", (data) => {   // Escucho/recibo la informacion del
         const descripcion = document.createElement('p')
         descripcion.innerText = 'Descripcion: ' + element.description;
         const precio = document.createElement('p')
-        precio.innerText = 'Precio: $ ' + element.price;
+        precio.innerText = 'Precio: u$s ' + element.price;
         const stock = document.createElement('p')
         stock.innerText = 'Stock: ' + element.stock;
+        const categoria = document.createElement('p')
+        categoria.innerText = 'Categoria: ' + element.categoria;
 
-        div.appendChild(titulo);
-        div.appendChild(id);
-        div.appendChild(descripcion);
-        div.appendChild(precio);
-        div.appendChild(stock);
-        boxProducts.appendChild(div);
+        div.appendChild(titulo)
+        div.appendChild(id)
+        div.appendChild(descripcion)
+        div.appendChild(precio)
+        div.appendChild(stock)
+        div.appendChild(categoria)
+        boxProducts.appendChild(div)
     });
+
 });
 
 function agregarProducto() {
@@ -33,9 +38,9 @@ function agregarProducto() {
     const price = document.querySelector('#add-price').value
     const code = document.querySelector('#add-code').value
     const stock = document.querySelector('#add-stock').value
-    const category = document.querySelector('#add-category').value
+    const categoria = document.querySelector('#add-category').value
 
-    const producto = { title, description, price, code, stock, category }
+    const producto = { title, description, price, code, stock, categoria }
     socket.emit("newProducto", producto)
 
     document.querySelector('#add-title').value = ""
