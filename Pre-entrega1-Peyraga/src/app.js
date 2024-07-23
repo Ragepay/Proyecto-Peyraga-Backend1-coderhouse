@@ -45,5 +45,15 @@ socketServer.on('connection', async (socket) => {    // Nombre del evento que qu
     console.log("Dispositivos conectados: " + socketServer.engine.clientsCount);  //    Ver los dispositivos conectados.
     const listaProductos = await productManager.obtenerProductos();
     socket.emit("home", listaProductos);
+    socket.emit("realTimeProducts", listaProductos);
+    socket.on("newProducto", async (producto) => {
+        await productManager.agregarProducto(producto);
+        socket.emit("realTimeProducts", listaProductos);
+    });
+    socket.on("eliminarProducto", async (id) => {
+        await productManager.eliminarProducto(id);
+        socket.emit("realTimeProducts", listaProductos);
+    });
+
 });
 

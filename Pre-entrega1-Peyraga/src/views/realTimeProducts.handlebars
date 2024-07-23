@@ -1,6 +1,29 @@
-<div>
-    <h1>REAL TIME PRODUCTS</h1>
-    <div></div>
+<h1>REAL TIME PRODUCTS</h1>
+<div class="container">
+    <div class="boxProducts"></div>
+    <div class="boxEvents">
+        <div class="agregar">
+            <h2>Agregar Producto</h2>
+            <div class="formulario-add">
+                <label for="add-title"></label>
+                <input id="add-title" type="text" placeholder="Titulo">
+                <input id="add-description" type="text" placeholder="Descripcion">
+                <input id="add-price" type="number" placeholder="Precio">
+                <input id="add-code" type="text" placeholder="Codigo">
+                <input id="add-stock" type="number" placeholder="Stock">
+                <input id="add-category" type="text" placeholder="Categoria">
+                <button id="button-add" onclick="agregarProducto()">Agregar Nuevo Producto</button>
+            </div>
+        </div>
+        <div class="eliminar">
+            <h2>Eliminar Producto</h2>
+            <div class="formulario-delete">
+                <input id="delete-id" type="text" placeholder="ID Producto a Eliminar">
+                <button id="button-delete" onclick="eliminarProducto()">Eliminar Producto</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 <script src="/socket.io/socket.io.js"></script> <!-- Esto ejecuta la conexion d eparte del cliente. -->
 <script src="./js/realTimeProducts.js"></script>

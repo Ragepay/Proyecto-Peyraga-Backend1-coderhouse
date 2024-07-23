@@ -17,7 +17,9 @@ h1 {
     display: flex;
     margin: 1em;
     padding: 0.5em;
-    gap: 1em;
+    gap: 0.6em;
+    border: 1px solid black;
+    flex-wrap: wrap;
 }
 
 .boxProducts div {
@@ -25,10 +27,31 @@ h1 {
     margin: 1em;
     padding: 0.5em;
     text-align: center;
+    max-width: 250px;
 }
+
 /* VIEW de HOME*/
 
 /* VIEW de realTimeProducts*/
+.container {
+    display: flex;
+    margin: 1em;
+    padding: 0.5em;
+    gap: 1em;
+    border: 1px solid black;
+}
+
+.boxEvents {
+    margin: 0.1em;
+    text-align: center;
+}
+
+.boxEvents .agregar,
+.eliminar {
+    margin: 1em;
+    padding: 3em;
+    border: 1px solid black;
+}
 
 
 
