@@ -27,6 +27,5 @@ socket.on("home", (data) => {   // Escucho/recibo la informacion del servidor po
         div.appendChild(categoria)
         boxProducts.appendChild(div)
     });
-
 });
 
