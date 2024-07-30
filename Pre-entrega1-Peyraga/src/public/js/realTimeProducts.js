@@ -33,14 +33,19 @@ socket.on("realTimeProducts", (data) => {   // Escucho/recibo la informacion del
 
 function agregarProducto() {
 
-    const title = document.querySelector('#add-title').value
-    const description = document.querySelector('#add-description').value
-    const price = document.querySelector('#add-price').value
-    const code = document.querySelector('#add-code').value
-    const stock = document.querySelector('#add-stock').value
-    const categoria = document.querySelector('#add-category').value
+    let title = document.querySelector('#add-title').value;
+    let description = document.querySelector('#add-description').value;
+    let price = document.querySelector('#add-price').value;
+    let code = document.querySelector('#add-code').value;
+    let stock = parseInt(document.querySelector('#add-stock').value);
+    let categoria = document.querySelector('#add-category').value;
 
-    const producto = { title, description, price, code, stock, categoria }
+    
+    if (stock <= 0){
+        stock = 0;
+    }
+
+    let producto = { title, description, price, code, stock, categoria }
     socket.emit("newProducto", producto)
 
     document.querySelector('#add-title').value = ""
@@ -52,7 +57,7 @@ function agregarProducto() {
 }
 
 function eliminarProducto() {
-    const id = document.querySelector('#delete-id').value
+    let id = document.querySelector('#delete-id').value
     socket.emit("eliminarProducto", id)
     document.querySelector('#delete-id').value = ""
 }
