@@ -7,7 +7,7 @@ import { Server } from 'socket.io';
 import productsRoute from './routes/products.router.js';
 import cartsRoute from './routes/carts.router.js';
 import homeRoute from './routes/home.router.js'
-import realTimeProductsRoute from './routes/realTimeProducts.router.js'
+import realTimeProductsRoute from './routes/realTimeProducts.router.js';
 
 //  Class
 import ProductManager from './class/productManager.js';
