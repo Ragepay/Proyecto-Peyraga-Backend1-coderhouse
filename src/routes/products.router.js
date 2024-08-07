@@ -1,26 +1,65 @@
 import { Router } from "express";
-import { __dirname } from '../utils.js';
-import ProductManager from '../class/productManager.js';
+import { ProductsModel } from '../model/products.model.js';
 
-const router = Router();
-
-const productManager = new ProductManager(__dirname + '/data/products.json');
-
-
+const app = Router();
 
 // Listar todos los productos de products.json
-router.get('/', async (req, res) => {
-    const limit = parseInt(req.query.limit, 10);
-    const productLista = await productManager.obtenerProductos();
+app.get('/', async (req, res) => {
+    try {
 
-    if (!isNaN(limit) && limit > 0) {
-        return res.status(200).json( productLista.slice(0, limit));
+        const { limit = 10, page = 1, sort = '', query = '' } = req.query;
+
+        let filter = {};
+        if (query) {
+            filter = {
+                $or: [
+                    { title: { $regex: query, $options: 'i' } },
+                    { description: { $regex: query, $options: 'i' } },
+                    { code: { $regex: query, $options: 'i' } },
+                    { categoria: { $regex: query, $options: 'i' } }
+                ]
+            };
+        }
+
+        const sortOrden = {
+            'asc': 1,
+            'desc': -1
+        }
+
+        const options = {
+            page: Number(page),
+            limit: Number(limit),
+            ...(sort && { sort: { price: sortOrden[sort] } })
+        };
+
+        const result = await ProductsModel.paginate(filter, options);
+
+        const linkPage = (page) => {
+            return `/api/products?limit=${limit}&page=${page}&sort=${sort}&query=${query}`;
+        };
+
+        res.status(200).json({
+            status: 'success',
+            payload: result.docs,
+            totalPages: result.totalPages,
+            prevPage: result.prevPage,
+            nextPage: result.nextPage,
+            page: result.page,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevLink: result.hasPrevPage ? linkPage(result.prevPage) : null,
+            nextLink: result.hasNextPage ? linkPage(result.nextPage) : null
+        });
+
+
+    } catch (error) {
+        res.status(500).json({ status: 'Error.', message: 'Error fetching products', error });
     }
-    res.status(200).json(productLista);
-})
+
+});
 
 //  Añadir producto a products.json
-router.post('/', async (req, res) => {
+app.post('/', async (req, res) => {
     const { title, description, code, price, stock, categoria } = req.body;
     let { status, thumbnails } = req.body;
 
@@ -31,29 +70,28 @@ router.post('/', async (req, res) => {
 
     // Validar los datos requeridos
     if (!title || !description || !code || !price || !stock || !categoria) {
-        return res.status(400).json({ error: 'Datos incompletos o inválidos.' });
+        return res.status(400).json({ status: 'error', error: 'Datos incompletos o inválidos. Recuerda que son requeridos; title, description, code, price, stock y categoria.' });
     }
 
     try {
-        await productManager.agregarProducto({ title, description, code, price, status, stock, categoria, thumbnails });
+        await ProductsModel.create({ title, description, code, price, status, stock, categoria, thumbnails });
         res.status(201).json({ mensaje: "Producto añadido." });
     } catch (error) {
         console.error('Error al agregar el producto:', error);
-        res.status(500).json({ error: 'Error al agregar el producto' });
+        res.status(500).json({ error: 'Error al agregar el producto. Puede ser que este queriendo duplicar el "code" y es único.' });
     }
 })
 
-//  Metodos con parametros.
-//  Mostrar producto por parametro de products.json
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-    
-    try {
-        const productLista = await productManager.obtenerProductos();
-        const producto = productLista.find(p => p.id == id);
 
-        if (producto) {
-            res.status(200).json(producto);
+
+app.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const productLista = await ProductsModel.findById(id);
+
+        if (productLista) {
+            res.status(200).json(productLista);
         } else {
             res.status(404).json({ error: `No se encontró un producto con ID ${id}` });
         }
@@ -64,30 +102,52 @@ router.get('/:id', async (req, res) => {
 })
 
 // Actualizar un producto según ID en products.json
-router.put('/:id', async (req, res) => {
+app.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const datosActualizar = req.body;
+    const { title, description, code, price, stock, categoria } = req.body;
+    let { status, thumbnails } = req.body;
+
+    if (!title || !description || !code || !price || !stock || !categoria) {
+        return res.status(400).json({ status: 'error', error: 'Datos incompletos o inválidos. Recuerda que son requeridos; title, description, code, price, stock y categoria.' });
+    }
+
+    if (status === undefined) {
+        status = true;
+    }
+
+    const updateData = {
+        title,
+        description,
+        code,
+        price,
+        stock,
+        categoria,
+        status,
+        thumbnails
+    }
+
+    // Opciones: Devuelve el documento actualizado
+    const options = { new: true };
 
     try {
-        const productoActualizado = await productManager.actualizarProducto(id, datosActualizar);
+        const productoActualizado = await ProductsModel.findByIdAndUpdate(id, updateData, options);
 
         if (productoActualizado) {
-            res.status(201).json({ mensaje: `Producto con ID ${id} actualizado correctamente` });
+            res.status(201).json({ mensaje: `Producto con ID ${id} actualizado correctamente`, producto: productoActualizado });
         } else {
             res.status(404).json({ error: `No se encontró un producto con ID ${id}` });
         }
     } catch (error) {
-        console.error('Error al actualizar el producto:', error);
         res.status(500).json({ error: 'Error al actualizar el producto' });
     }
-}); 
+});
 
 //  Eliminar producto de products.json
-router.delete('/:id', async (req, res) => {
-    const id = req.params.id;
+app.delete('/:id', async (req, res) => {
+    const { id } = req.params;
 
     try {
-        const productoEliminado = await productManager.eliminarProducto(id);
+        const productoEliminado = await ProductsModel.findByIdAndDelete(id);
 
         if (productoEliminado) {
             res.status(201).json({ message: `Producto con ID ${id} eliminado correctamente` });
@@ -95,9 +155,10 @@ router.delete('/:id', async (req, res) => {
             res.status(404).json({ error: `No se encontró un producto con ID ${id}` });
         }
     } catch (error) {
-        console.error('Error al eliminar el producto:', error);
         res.status(500).json({ error: 'Error al eliminar el producto' });
     }
+
 });
-    
-export default router;
+
+
+export default app;

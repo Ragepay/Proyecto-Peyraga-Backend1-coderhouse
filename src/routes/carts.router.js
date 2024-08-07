@@ -1,22 +1,15 @@
 import { Router } from "express";
-import { __dirname } from '../utils.js';
-import CartManager from '../class/cartsManager.js';
+import { CartsModel } from '../model/carts.model.js';
 
 const router = Router();
 
-const cartsManager = new CartManager(__dirname + '/data/carts.json');
-
-
-
 // Ruta GET /:id para listar los productos de un carrito específico
 router.get('/:id', async (req, res) => {
-    console.log("Entró al get.")
-
     const { id } = req.params;
-    try {   
-        const carrito = await cartsManager.obtenerCarrito(id);
+    try {
+        const carrito = await CartsModel.findById(id);
         if (carrito) {
-            res.status(200).json(carrito);
+            res.status(200).json({ status: "Success", payload: carrito });
         } else {
             res.status(404).json({ error: `No se encontró un carrito con ID ${id}` });
         }
@@ -28,7 +21,7 @@ router.get('/:id', async (req, res) => {
 
 // Crear un nuevo carrito mandando un array de productos(objetos).
 router.post('/', async (req, res) => {
-    
+
     try {
         const productos = req.body;
         const nuevoCarrito = await cartsManager.crearCarrito(productos); // Crea el carrito con los productos recibidos
