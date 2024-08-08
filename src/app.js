@@ -14,11 +14,14 @@ const PORT = 8080;
 const app = express();
 
 //  Conectar con MongoDB Atlas base de Datos.
-mongoose.connect('mongodb+srv://Ragepay:Benja992013@coderback.vqrxnc2.mongodb.net/?retryWrites=true&w=majority&appName=Coderback',
-    { dbName: 'Backend1-PFinal' })
-    .then(() => {
-        console.log("Listo la base de datos")
-    });
+const enviroment = async () => {
+    await mongoose.connect('mongodb+srv://Ragepay:wKL1LFxdeeHbuw2z@coderback.vqrxnc2.mongodb.net/?retryWrites=true&w=majority&appName=Coderback',
+        { dbName: 'Backend1-PFinal' })
+        .then(() => {
+            console.log("Listo la base de datos")
+        });
+}
+enviroment()
 
 //  Handlebars.
 app.engine('handlebars', handlebars.engine())

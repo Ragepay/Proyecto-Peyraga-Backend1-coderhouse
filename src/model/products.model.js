@@ -18,7 +18,8 @@ const productsSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        required: true,
+        index :true
     },
     status: {
         type: Boolean
@@ -30,7 +31,8 @@ const productsSchema = new mongoose.Schema({
     thumbnails: [String],
     categoria: {
         type: String,
-        required: true
+        required: true,
+        index:true
     }
 });
 

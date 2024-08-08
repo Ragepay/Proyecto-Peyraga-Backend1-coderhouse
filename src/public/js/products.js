@@ -1,3 +1,23 @@
+const url = 'http://localhost:8080/api/products/';
+const info = {};
+fetch(url)
+    .then(response => { return response.json(); })
+    .then(async data => {
+
+        console.log("datos recibidos:", data);
+        info = await data;
+    })
+    .catch(error => {
+        console.error('Error al obtener los datos:', error);
+        console.log("Error en el fetch.")
+    });
+
+console.log(info.payload)
+
+
+
+
+/*
 const socket = io(); // Esto ejecuta la conexion de parte del cliente.
 const boxProducts = document.querySelector(".boxProducts");
 
@@ -29,3 +49,4 @@ socket.on("home", (data) => {   // Escucho/recibo la informacion del servidor po
     });
 });
 
+*/

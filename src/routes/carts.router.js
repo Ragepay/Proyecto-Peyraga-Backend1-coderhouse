@@ -65,7 +65,7 @@ app.post('/:id/products/:pid', async (req, res) => {
     }
 });
 
-// Metodo Delete para eliminar el producto en su totalidad.
+// Metodo Delete para eliminar un producto en su totalidad en un carrito determiando.
 app.delete('/:id/products/:pid', async (req, res) => {
     const { id, pid } = req.params;
     try {
@@ -91,6 +91,7 @@ app.delete('/:id/products/:pid', async (req, res) => {
 
 });
 
+//  Elimina todos los productos del carrito determinado.
 app.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -106,12 +107,60 @@ app.delete('/:id', async (req, res) => {
 
 });
 
+//  Modifica/Actualiza los productos de un carrito determiando.
 app.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const newProducts = req.body;
+
+    if (!Array.isArray(newProducts)) {
+        return res.status(400).json({ error: 'El cuerpo de la solicitud debe contener un arreglo de productos.' });
+    }
+
+    try {
+        let carrito = await CartsModel.findById(id);
+        if (!carrito) {
+            return res.status(404).json({ error: `No se encontró un carrito con ID ${id}` });
+        }
+        carrito.products = newProducts;
+        await carrito.save();
+        res.status(200).json({
+            mensaje: `Carrito con ID ${id} actualizado correctamente`,
+            carrito: carrito
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: `Error al actualizar el carrito con ID ${id}` });
+    }
 
 });
 
+// Modifica/Actualiza la quantity de un producto en un carrito determiando.
 app.put('/:id/products/:pid', async (req, res) => {
+    const { id, pid } = req.params;
+    const { quantity } = req.body;
 
+
+    try {
+        let carrito = await CartsModel.findById(id);
+        if (!carrito) {
+            return res.status(404).json({ error: `No se encontró un carrito con ID ${id}` });
+        }
+
+        let producto = carrito.products.find(product => product._id.equals(pid));
+        if (!producto) {
+            return res.status(404).json({ error: `No se encontró un producto con ID ${pid} en el carrito` });
+        }
+        producto.quantity = quantity;
+        await carrito.save();
+        res.status(200).json({
+            mensaje: `Carrito con ID :${id} actualizado correctamente en la cantidad del producto con ID: ${pid}.`,
+            carrito: carrito
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: `Error al actualizar en carrito con ID: ${id}, la cantidad del producto con ID: ${pid}. ` });
+
+    }
 });
 
 export default app;
