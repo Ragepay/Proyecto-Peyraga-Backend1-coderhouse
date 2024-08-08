@@ -4,11 +4,8 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 //  Esquema del documento/JSON/BSON de la BBDD.
 const cartsSchema = new mongoose.Schema({
     products: [{
-        _id: {
-            type: String,
-            unique: true
-        },
-        quantity: Number
+        _id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+        quantity: { type: Number, required: true }
     }]
 });
 
